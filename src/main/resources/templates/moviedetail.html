@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all" />
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md2">
+            <div class="layui-card" style="height: 240px">
+                <!--<div class="layui-card-header">卡片面板</div>-->
+                <!--<div class="layui-card-body">-->
+                    <!--卡片式面板面板通常用于非白色背景色的主体内<br>-->
+                    <!--从而映衬出边框投影-->
+                <!--</div>-->
+                <img th:src="${movieInfo.getImgUrl()}"/>
+            </div>
+        </div>
+        <div class="layui-col-md10">
+            <div class="layui-card">
+                <div class="layui-card-header"><a th:text="${movieInfo.getName()}"></a> </div>
+                <div class="layui-card-header"><a th:text="${movieInfo.getReleaseTime()}"></a> </div>
+                <div class="layui-card-header"><a th:text="${movieInfo.getType()}"></a> </div>
+                <div class="layui-card-header"><p style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden"
+                                                  th:text="${movieInfo.getDirector()}"></p> </div>
+                <div class="layui-card-header"><p style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden"
+                                                  th:text="${movieInfo.getWriter()}"></p> </div>
+                <div class="layui-card-header"><p style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden"
+                                                  th:text="${movieInfo.getActor()}"></p> </div>
+                <!--<div class="layui-card-body">-->
+                    <!--结合 layui 的栅格系统<br>-->
+                    <!--轻松实现响应式布局-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">剧情</div>
+                <div class="layui-card-body">
+                    <!--<a th:text="${movieInfo.getPlot()}"></a>-->
+                    <p style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden"
+                       th:text="${movieInfo.getPlot()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="layui/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+<script>
+    layui.use(['table','upload'], function(){
+        var $ = layui.$;
+
+
+        $('button[data-type]').click(function () {
+            var type = $(this).data('type');
+            active[type] && active[type].call(this);
+        });
+    });
+</script>
+
+</body>
+</html>

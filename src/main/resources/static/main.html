@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+        h1 {
+            text-align: center;
+            color: skyblue;
+        }
+        body {
+            perspective: 600px;
+        }
+        .top {
+            transition: all 1s;
+        }
+        .bottom {
+            transition: all 1s;
+        }
+        .top div:hover {
+            transform: translateZ(100px);
+        }
+        .bottom div:hover {
+            transform: translateZ(100px);
+        }
+        .top,.bottom {
+            width: 798px;
+            height: 150px;
+            margin:100px auto;
+            /* 父级盒子添加flex */
+            display: flex;
+            min-width: 500px;
+        }
+        .top div {
+            height: 100%;
+            text-align: center;
+            color:sandybrown;
+        }
+        .top div img {
+            width: 100px;
+        }
+        .bottom div {
+            height: 100%;
+            text-align: center;
+            color:sandybrown;
+        }
+        .bottom div img {
+            width: 100px;
+        }
+        .top div:nth-child(1) {
+            flex: 1;
+        }
+        .top div:nth-child(1):hover {
+            background: url(images/kz.jpg) no-repeat;
+        }
+        .top div:nth-child(2) {
+            flex: 1;                     /* 子盒子添加份数 */
+            margin: 0 5px;
+        }
+        .top div:nth-child(2):hover {
+            background: url(images/zz.jpg) no-repeat;
+        }
+        .top div:nth-child(3) {
+            flex: 1;                     /* 子盒子添加份数 */
+        }
+        .top div:nth-child(3):hover {
+            background: url(images/lz.jpg) no-repeat;
+        }
+        .bottom div:nth-child(1) {
+            flex: 1;
+        }
+        .bottom div:nth-child(1):hover {
+            background: url(images/xz.jpg) no-repeat;
+        }
+        .bottom div:nth-child(2) {
+            flex: 1;                     /* 子盒子添加份数 */
+            margin: 0 5px;
+        }
+        .bottom div:nth-child(2):hover {
+            background: url(images/sz.jpg) no-repeat;
+        }
+        .bottom div:nth-child(3) {
+            flex: 1;                     /* 子盒子添加份数 */
+        }
+        .bottom div:nth-child(3):hover {
+            background: url(images/hz.jpg) no-repeat;
+        }
+    </style>
+</head>
+<body>
+
+<h1>我们的团队</h1>
+<div class="top">
+    <div><img src="images/k.jpg" alt=""><h3>柯创伟</h3></div>
+    <div><img src="images/z.jpg" alt=""><h3>周超</h3></div>
+    <div><img src="images/l.jpg" alt=""><h3>罗伊婧</h3></div>
+</div>
+<div class="bottom">
+    <div><img src="images/x.jpg" alt=""><h3>肖泽希</h3></div>
+    <div><img src="images/s.jpg" alt=""><h3>苏茹茵</h3></div>
+    <div><img src="images/h.jpg" alt=""><h3>胡保峰</h3></div>
+</div>
+</div>
+</body>
+</html>

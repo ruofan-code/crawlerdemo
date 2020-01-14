@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all"/>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+</body>
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="bj">查看</a>
+    <!--<a class="layui-btn layui-btn-xs" lay-event="sc">删除</a>-->
+</script>
+<script src="layui/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-btn-container layui-col-xs12 layui-col-sm12 layui-col-md6 ">
+            <button class="layui-btn layui-btn-warm" data-type="refresh">
+                <i class="layui-icon layui-icon-refresh"></i>刷新
+            </button>
+            <button class="layui-btn layui-bg-blue" data-type="create">
+                <i class="layui-icon layui-icon-add-circle"></i>新建
+            </button>
+            <button class="layui-btn layui-bg-green" data-type="edit">
+                <i class="layui-icon layui-icon-edit"></i>编辑
+            </button>
+            <button class="layui-btn layui-bg-red" data-type="del">
+                <i class="layui-icon layui-icon-delete"></i>删除
+            </button>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 ">
+            <form method="get" id="searchform" lay-filter="searchform" class="layui-form" style="float:right">
+                <div class="layui-row">
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs12 ">
+                        <select name="searchfield" lay-verify="required">
+                            <option value="name">电影名称</option>
+                            <option value="director">电影导演</option>
+                            <option value="writer">电影编剧</option>
+                            <option value="actor">演职人员</option>
+                            <option value="type">类型</option>
+                            <option value="releaseTime">上映时间</option>
+                        </select>
+                    </div>
+                    <div class="layui-col-md6 layui-col-sm6 layui-col-xs12 "><input type="text" class="layui-input"
+                                                                                    lay-verify="required"
+                                                                                    name="searchword"/></div>
+                    <div class="layui-col-md3 layui-col-sm3 layui-col-xs12 ">
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit lay-filter="search"><i
+                                class="layui-icon layui-icon-searchDynamic"></i>检索
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <table id="demo" lay-filter="test"></table>
+    </table>
+</div>
+<script>
+    layui.use(['table', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.$;
+
+        table.render({
+            elem: '#demo'
+            , url: '/movie/getAllMovie'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , id: 'id'
+            , cols: [
+                [
+                    {type: 'numbers'},
+                    {type: 'checkbox'},
+                    {field: 'id', title: '编号', sort: true, hide: true}
+                    , {field: 'name', title: '电影名称', sort: true}
+                    , {field: 'releaseTime', title: '上映时间', sort: true}
+                    , {field: 'type', title: '电影类型'}
+                    , {field: 'director', title: '导演'}
+                    , {field: 'writer', title: '编剧'}
+                    , {field: 'actor', title: '演职人员'}
+                    , {field: 'plot', title: '剧情', hide: true}
+                    , {field: 'imgUrl', title: '图片地址', hide: true}
+                    , {fixed: 'right', title: '操作', width: 100, align: 'center', toolbar: '#toolbar'}
+                ]
+            ]
+            , page: true
+        });
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            var tr = obj.tr;
+            var checkStatus = table.checkStatus('id'); //test即为基础参数id对应的值
+
+            if (layEvent === 'bj') { //查看电影
+                layer.open({
+                    type: 2,
+                    title: '查看电影:' + data.name,
+                    skin: 'lay-auto-size',
+                    area: ['90%', '90%'],
+                    offset: '0px',
+                    content: '/moviedetail?id=' + data.id
+                });
+            }
+
+            // if (layEvent === 'sc') { //删除
+            //     layer.confirm('确认删除信息吗', function (index) {
+            //         $.ajax({
+            //             method: "get",
+            //             url: '/classinfo/del?classId=' + data.id,
+            //             //traditional: true,
+            //             // data: {"ids": ids},
+            //             success: function (data) {
+            //                 layer.close(index);
+            //                 table.reload('id');
+            //             }
+            //         });
+            //     });
+            // }
+        });
+
+        form.on('submit(search)', function (data) {
+            var field = data.field.searchfield;
+            var value1 = data.field.searchword;
+            // var filter = [{
+            //     name: field,
+            //     value: value
+            // }];
+            // $.ajax({
+            //     url:'/movie/search',
+            //     data:data.field,
+            //     //contentType:'application/json',
+            //     method:'get',
+            //     success:function (res) {
+            //         if (res.code==0){
+            //             // alert(res.msg);
+            //             location.href='index'
+            //         } else {
+            //             // alert(res.msg);
+            //         }
+            //     }
+            // })
+            table.reload('id', {
+                    url: '/movie/search',
+                    where: {
+                        fieldType: field, fieldValue: value1
+                    },
+                page:{
+                        curr:1
+                }
+                }
+            );
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        var active = {
+            //刷新
+            refresh: function () {
+                table.reload('id');
+            }
+//新建
+            , create: function () {
+                layer.open({
+                    type: 2,
+                    skin: 'lay-auto-size',
+                    area: ['90%', '90%'],
+                    offset: '0px',
+                    content: '/movie_create.html'
+                });
+            }
+            , del: function () {
+                var checkStatus = table.checkStatus('id'); //test即为基础参数id对应的值
+                if (checkStatus.data.length == 0) {
+                    layer.alert('请选择行项目');
+                    return;
+                }
+                var ids = new Array();
+                for (var i = 0; i < checkStatus.data.length; i++) {
+                    ids[i] = checkStatus.data[i].id;
+                }
+                layer.confirm('确认删除信息吗', function (index) {
+                    $.ajax({
+                        method: "delete",
+                        url: '/movie/deleteBatch',
+                        //traditional: true,
+                        data: {"ids": ids},
+                        success: function (data) {
+                            alert(data);
+                            layer.close(index);
+                            table.reload('id');
+                        }
+                    });
+                });
+
+
+            },
+            edit: function () {
+                var checkStatus = table.checkStatus('id'); //test即为基础参数id对应的值
+                if (checkStatus.data.length != 1) {
+                    layer.alert('请选择一行项目');
+                    return;
+                }
+                layer.open({
+                    type: 2,
+                    skin: 'lay-auto-size',
+                    area: ['90%', '90%'],
+                    offset: '0px',
+                    content: '/movie_edit?id=' + checkStatus.data[0].id
+                });
+            }
+        };
+
+
+        $('button[data-type]').click(function () {
+            var type = $(this).data('type');
+            active[type] && active[type].call(this);
+        });
+    });
+</script>
+
+</html>
